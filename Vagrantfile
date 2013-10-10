@@ -6,13 +6,14 @@ if [ ! -f ~/runonce ]
 then
   ## Init
   locale-gen en_CA.UTF-8 # Feel free to change it to your locale
+  sed -i -e 's/\/archive.ubuntu.com/\/mirrors.kernel.org/' /etc/apt/sources.list
   aptitude update
-  aptitude upgrade -yq
   aptitude install -yq git-core libpcap-dev libsqlite3-dev gcc make
 
   ## Mininet, POX, OVSK, Wireshark dissector
   git clone git://github.com/mininet/mininet
-  ./mininet/util/install.sh -a
+  time mininet/util/install.sh
+  time mininet/util/install.sh -tc
 
   ## Trema
   aptitude install -yq gcc make ruby rubygems ruby-dev libpcap-dev libsqlite3-dev libglib2.0-dev
@@ -24,7 +25,7 @@ then
   echo "deb http://updates.onlab.us/debian stable/" >> /etc/apt/sources.list
   aptitude update
   aptitude install -yq flowvisor
-  sudo -u flowvisor fvconfig generate /dev/null
+  #sudo -u flowvisor fvconfig generate /dev/null
 
   ## Clojure
   #aptitude install -yq libg2-xpm openjdk-7-jdk
