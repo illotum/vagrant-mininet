@@ -15,8 +15,7 @@ then
   ./mininet/util/install.sh -a
 
   ## Trema
-  aptitude install -yq ruby rubygems ruby-dev
-  # update-alternatives  --set ruby /usr/bin/ruby1.8
+  aptitude install -yq gcc make ruby rubygems ruby-dev libpcap-dev libsqlite3-dev libglib2.0-dev
   gem install trema --no-ri --no-rdoc
 
   ## FlowVisor
