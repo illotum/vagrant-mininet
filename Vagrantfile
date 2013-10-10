@@ -25,7 +25,7 @@ then
   echo "deb http://updates.onlab.us/debian stable/" >> /etc/apt/sources.list
   aptitude update
   aptitude install -yq flowvisor
-  #sudo -u flowvisor fvconfig generate /dev/null
+  sudo -u flowvisor fvconfig generate /dev/null
 
   ## Clojure
   #aptitude install -yq libg2-xpm openjdk-7-jdk
