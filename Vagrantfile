@@ -17,7 +17,16 @@ then
 
   ## Trema
   aptitude install -yq gcc make ruby rubygems ruby-dev libpcap-dev libsqlite3-dev libglib2.0-dev
+  ## Option: gem
   gem install trema --no-ri --no-rdoc
+  ## Option: fom source
+  #gem install bundler --no-ri --no-rdoc
+  #git clone https://github.com/trema/trema
+  #cd trema
+  #git checkout master
+  #bundle install
+  #./build.rb
+
 
   ## FlowVisor
   wget http://updates.onlab.us/GPG-KEY-ONLAB
