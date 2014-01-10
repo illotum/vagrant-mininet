@@ -37,7 +37,6 @@ then
   # sudo -iu vagrant cp packet-trema.so ~/.wireshark/plugins
   # sudo -iu vagrant cp ../user_dlts ~/.wireshark/
 
-
   ## FlowVisor
   wget http://updates.onlab.us/GPG-KEY-ONLAB
   apt-key add GPG-KEY-ONLAB
@@ -45,11 +44,6 @@ then
   aptitude update
   aptitude install -yq flowvisor
   #sudo -u flowvisor fvconfig generate /dev/null
-
-  ## Clojure
-  #aptitude install -yq libg2-xpm openjdk-7-jdk
-  #wget -O /usr/local/bin/lein https://raw.github.com/technomancy/leiningen/stable/bin/lein
-  #chmod 755 /usr/local/bin/lein
 
   touch ~/runonce
 fi
