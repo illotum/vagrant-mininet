@@ -1,27 +1,17 @@
-# -*- mode: ruby -*-
+ -*- mode: ruby -*-
 # vi: set ft=ruby :
 
 $init = <<SCRIPT
 if [ ! -f ~/runonce ]
 then
-  ## Init
-  #locale-gen en_CA.UTF-8 # Feel free to change it to your locale
-  aptitude update
-  aptitude install -yq git-core libpcap-dev libsqlite3-dev gcc make \
-    pkg-config autotools-dev libltdl-dev libltdl7 m4 cmake cgroup-lite wireshark \
-    libxslt1-dev msgpack-python python-setuptools python-nose python-pip python-dev
-
-  ## Mininet, POX, OVSK, Wireshark dissector
+  # Init
   git clone git://github.com/mininet/mininet
-  sudo -iu vagrant mininet/util/install.sh -a
-  #sudo -iu vagrant mininet/util/install.sh -tc
-
-  ## Ryu
-  pip install ipaddr networkx bitarray netaddr oslo.config routes webob \
-    paramiko mock eventlet xml_compare pyflakes pylint pep8
-  git clone https://github.com/osrg/ryu
-  git clone https://bitbucket.org/sdnhub/ryu-starter-kit ryu/ryu/app/sdnhub_apps
-
+  sudo -iu vagrant mininet/util/install.sh -rtkr # Init
+  sudo -iu vagrant mininet/util/install.sh -nb #f3 # Core
+  sudo -iu vagrant mininet/util/install.sh -y # Ryu controller
+  sudo -iu vagrant mininet/util/install.sh -mvV 2.3.0 # OVS(k)
+  sudo -iu vagrant mininet/util/install.sh -cd # Cleanup
+  # Make sure we don't run it again
   touch ~/runonce
 fi
 SCRIPT
