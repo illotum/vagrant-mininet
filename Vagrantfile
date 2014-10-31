@@ -1,4 +1,4 @@
- -*- mode: ruby -*-
+# -*- mode: ruby -*-
 # vi: set ft=ruby :
 
 $init = <<SCRIPT
