@@ -1,21 +1,22 @@
 # vagrant-mininet
 
 This Vagrantfile tries to be an all-inclusive script to provide an
-OpenFlow playground in a VM.
+OpenFlow 1.3 playground in a VM.
 
-Included tools are:
+Tools included:
 
-- Mininet
-- POX
-- Wireshark dissector
-- Trema
-- Flowvisor
+- Mininet 2.1.0
+- OpenVSwitch 2.3.0
+- Ryu
+- Trema Edge
 
 ## Usage
 
-You have to have VirtualBox and Vagrant installed. Next, download the
-Vagrantfile and run `vagrant up` from the folder it is located in.
+Start with installation of VirtualBox and Vagrant. Next, download the
+Vagrantfile and run `vagrant up` from the folder it is stored in.
 
-After the script finishes its job, `vagrant ssh` should let you in the
-VM. Windows users may want to install `msysgit` distribution for a
+After the script finishes its job, `vagrant ssh` from the corresponding folder
+should let you in the VM.
+
+Windows users may want to install `msysgit` distribution for a
 seamless ssh experience.
