@@ -29,13 +29,13 @@ $mininet = <<SCRIPT
 SCRIPT
 
 $ryu = <<SCRIPT
-  aptitude install python-lxml python-pbr python-greenlet
+  aptitude install -y python-lxml python-pbr python-greenlet
   pip install six==1.7.0 networkx ryu
 SCRIPT
 
 $trema = <<SCRIPT
-  sudo aptitude install gcc make libpcap-dev libssl-dev ruby
-  gem install bundler
+  sudo aptitude install -y gcc make libpcap-dev libssl-dev ruby2.0 ruby2.0-dev
+  sudo gem install bundler
   git clone git://github.com/trema/trema-edge trema
   pushd trema
   bundle install
@@ -66,7 +66,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell, privileged: false, :inline => $ovs
   config.vm.provision :shell, privileged: false, :inline => $mininet
   config.vm.provision :shell, :inline => $ryu
-  config.vm.provision :shell, privileged: false, :inline => $trema
+  #config.vm.provision :shell, privileged: false, :inline => $trema
   config.vm.provision :shell, :inline => $cleanup
 
   ## SSH config
