@@ -65,8 +65,8 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell, :inline => $init
   config.vm.provision :shell, privileged: false, :inline => $ovs
   config.vm.provision :shell, privileged: false, :inline => $mininet
-  config.vm.provision :shell, :inline => $ryu
-  #config.vm.provision :shell, privileged: false, :inline => $trema
+  # config.vm.provision :shell, :inline => $ryu
+  # config.vm.provision :shell, privileged: false, :inline => $trema
   config.vm.provision :shell, :inline => $cleanup
 
   ## SSH config
