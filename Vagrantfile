@@ -7,6 +7,9 @@ $init = <<SCRIPT
   python-all python-qt4 python-twisted-conch libtool git tmux vim python-pip python-paramiko \
   python-sphinx
   pip install alabaster
+  sudo aptitude install -y default-jre-headless
+  echo 'export JAVA_HOME="/usr/lib/jvm/default-java"' >> ~/.profile
+  source ~/.profile
 SCRIPT
 
 $ovs = <<SCRIPT
