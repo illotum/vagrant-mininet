@@ -10,27 +10,27 @@ $init = <<SCRIPT
 SCRIPT
 
 $ovs = <<SCRIPT
-  wget http://openvswitch.org/releases/openvswitch-2.3.0.tar.gz
-  tar xf openvswitch-2.3.0.tar.gz
-  pushd openvswitch-2.3.0
+  wget http://openvswitch.org/releases/openvswitch-2.3.2.tar.gz
+  tar xf openvswitch-2.3.2.tar.gz
+  pushd openvswitch-2.3.2
   DEB_BUILD_OPTIONS='parallel=8 nocheck' fakeroot debian/rules binary
   popd
-  sudo dpkg -i openvswitch-common*.deb openvswitch-datapath-dkms*.deb python-openvswitch*.deb openvswitch-pki*.deb openvswitch-switch*.deb
+  sudo dpkg -i openvswitch-common*.deb openvswitch-datapath-dkms*.deb python-openvswitch*.deb openvswitch-pki*.deb openvswitch-switch*.deb openvswitch-controller*.deb
   rm -rf *openvswitch*
 SCRIPT
 
 $mininet = <<SCRIPT
   git clone git://github.com/mininet/mininet
   pushd mininet
-  git checkout -b 2.1.0p1 2.1.0p1
-  patch -p0 < /vagrant/mn-options.patch
+  git checkout -b 2.2.1 2.2.1
   ./util/install.sh -fn
   popd
 SCRIPT
 
 $ryu = <<SCRIPT
-  aptitude install -y python-lxml python-pbr python-greenlet
-  pip install six==1.7.0 networkx ryu
+  sudo aptitude install -y python-lxml python-pbr python-greenlet
+  sudo pip install six==1.7.0 networkx ryu
+  git clone https://github.com/osrg/ryu # Demo apps and stuff
 SCRIPT
 
 $trema = <<SCRIPT
@@ -41,6 +41,18 @@ $trema = <<SCRIPT
   bundle install
   rake
   popd
+SCRIPT
+
+$odl = <<SCRIPT
+  wget https://nexus.opendaylight.org/content/groups/public/org/opendaylight/integration/distribution-karaf/0.3.1-Lithium-SR1/distribution-karaf-0.3.1-Lithium-SR1.tar.gz
+  tar xf *Lithium*.tar.gz
+  rm *Lithium*.tar.gz
+SCRIPT
+
+$onos = <<SCRIPT
+  wget http://downloads.onosproject.org/release/onos-1.3.0.deb
+  sudo dpkg -i onos*.deb
+  rm onos*
 SCRIPT
 
 $cleanup = <<SCRIPT
@@ -59,13 +71,17 @@ Vagrant.configure("2") do |config|
   ## Guest config
   config.vm.hostname = "sdnlab"
   config.vm.network :private_network, ip: "192.168.0.100"
-  config.vm.network :forwarded_port, guest:6633, host:6634 # forwarding of port
+  config.vm.network :forwarded_port, guest:6633, host:6633 # OpenFlow
+  config.vm.network :forwarded_port, guest:8181, host:8181 # ONOS Web UI
+  config.vm.network :forwarded_port, guest:8080, host:8080 # ODL Web UI
 
   ## Provisioning
   config.vm.provision :shell, :inline => $init
   config.vm.provision :shell, privileged: false, :inline => $ovs
   config.vm.provision :shell, privileged: false, :inline => $mininet
-  # config.vm.provision :shell, :inline => $ryu
+  config.vm.provision :shell, privileged: false, :inline => $ryu
+  config.vm.provision :shell, privileged: false, :inline => $odl
+  config.vm.provision :shell, privileged: false, :inline => $onos
   # config.vm.provision :shell, privileged: false, :inline => $trema
   config.vm.provision :shell, :inline => $cleanup
 
