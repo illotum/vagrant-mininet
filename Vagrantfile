@@ -32,7 +32,7 @@ SCRIPT
 
 $ryu = <<SCRIPT
   sudo aptitude install -y python-lxml python-pbr python-greenlet
-  sudo pip install six==1.7.0 networkx ryu
+  sudo pip install six==1.9.0 networkx ryu
   git clone https://github.com/osrg/ryu # Demo apps and stuff
 SCRIPT
 
