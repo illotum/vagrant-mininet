@@ -17,3 +17,9 @@ tmp
 .yardoc
 _yardoc
 doc/
+
+# Controllers for Ryu or Trema
+*.py
+*.py.swp
+*.pyc
+*.rb

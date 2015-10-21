@@ -75,8 +75,8 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "sdnlab"
   config.vm.network :private_network, ip: "192.168.0.100"
   config.vm.network :forwarded_port, guest:6633, host:6633 # OpenFlow
-  config.vm.network :forwarded_port, guest:8181, host:8181 # ONOS Web UI
-  config.vm.network :forwarded_port, guest:8080, host:8080 # ODL Web UI
+  config.vm.network :forwarded_port, guest:8181, host:8181 # Web UI
+  config.vm.network :forwarded_port, guest:8080, host:8080 # ODL REST API
 
   ## Provisioning
   config.vm.provision :shell, :inline => $init
