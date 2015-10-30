@@ -2,12 +2,12 @@
 # vi: set ft=ruby :
 
 $init = <<SCRIPT
-  aptitude update
-  aptitude install -y build-essential fakeroot debhelper autoconf automake libssl-dev graphviz \
-  python-all python-qt4 python-twisted-conch libtool git tmux vim python-pip python-paramiko \
-  python-sphinx
-  pip install alabaster
-  sudo aptitude install -y default-jre-headless
+  sudo aptitude update
+  sudo DEBIAN_FRONTEND=noninteractive aptitude install -y build-essential fakeroot debhelper autoconf automake libssl-dev graphviz \
+   python-all python-qt4 python-twisted-conch libtool git tmux vim python-pip python-paramiko \
+   python-sphinx oracle-java8-installer
+  sudo pip install alabaster
+  sudo aptitude install -y openjdk-8-jdk
   echo 'export JAVA_HOME="/usr/lib/jvm/default-java"' >> ~/.profile
   source ~/.profile
 SCRIPT
@@ -31,13 +31,13 @@ $mininet = <<SCRIPT
 SCRIPT
 
 $ryu = <<SCRIPT
-  sudo aptitude install -y python-lxml python-pbr python-greenlet
+  DEBIAN_FRONTEND=noninteractive sudo aptitude install -y python-lxml python-pbr python-greenlet
   sudo pip install six==1.9.0 networkx ryu
   git clone https://github.com/osrg/ryu # Demo apps and stuff
 SCRIPT
 
 $trema = <<SCRIPT
-  sudo aptitude install -y gcc make libpcap-dev libssl-dev ruby2.0 ruby2.0-dev
+  DEBIAN_FRONTEND=noninteractive sudo aptitude install -y gcc make libpcap-dev libssl-dev ruby2.0 ruby2.0-dev
   sudo gem install bundler
   git clone git://github.com/trema/trema-edge trema
   pushd trema
@@ -53,9 +53,10 @@ $odl = <<SCRIPT
 SCRIPT
 
 $onos = <<SCRIPT
-  wget http://downloads.onosproject.org/release/onos-1.3.0.deb
-  sudo dpkg -i onos*.deb
-  rm onos*
+  wget http://downloads.onosproject.org/release/onos-1.3.0.tar.gz
+  # sudo dpkg -i onos*.deb
+  tar xf onos-1.3.0.tar.gz
+  rm onos-1.3.0.tar.gz
 SCRIPT
 
 $cleanup = <<SCRIPT
@@ -64,7 +65,7 @@ $cleanup = <<SCRIPT
 SCRIPT
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/vivid64"
 
   config.vm.provider "virtualbox" do |v|
       v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
@@ -73,13 +74,13 @@ Vagrant.configure("2") do |config|
 
   ## Guest config
   config.vm.hostname = "sdnlab"
-  config.vm.network :private_network, ip: "192.168.0.100"
+  # config.vm.network :private_network, ip: "192.168.0.100"
   config.vm.network :forwarded_port, guest:6633, host:6633 # OpenFlow
   config.vm.network :forwarded_port, guest:8181, host:8181 # Web UI
   config.vm.network :forwarded_port, guest:8080, host:8080 # ODL REST API
 
   ## Provisioning
-  config.vm.provision :shell, :inline => $init
+  config.vm.provision :shell, privileged: false, :inline => $init
   config.vm.provision :shell, privileged: false, :inline => $ovs
   config.vm.provision :shell, privileged: false, :inline => $mininet
   config.vm.provision :shell, privileged: false, :inline => $ryu
