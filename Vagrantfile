@@ -37,9 +37,9 @@ $ryu = <<SCRIPT
 SCRIPT
 
 $trema = <<SCRIPT
-  DEBIAN_FRONTEND=noninteractive sudo aptitude install -y gcc make libpcap-dev libssl-dev ruby2.0 ruby2.0-dev
+  DEBIAN_FRONTEND=noninteractive sudo aptitude install -y gcc make libpcap-dev libssl-dev ruby2.1 ruby2.1-dev
   sudo gem install bundler
-  git clone git://github.com/trema/trema-edge trema
+  git clone git://github.com/trema/trema trema
   pushd trema
   bundle install
   rake
@@ -86,7 +86,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell, privileged: false, :inline => $ryu
   config.vm.provision :shell, privileged: false, :inline => $odl
   config.vm.provision :shell, privileged: false, :inline => $onos
-  # config.vm.provision :shell, privileged: false, :inline => $trema
+  config.vm.provision :shell, privileged: false, :inline => $trema
   config.vm.provision :shell, :inline => $cleanup
 
   ## SSH config
